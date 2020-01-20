@@ -1,0 +1,61 @@
+<script src="//cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
+<main class="main-content bgc-grey-100">
+    <div id="mainContent">
+        <div class="container-fluid">
+            <h1 class="text-black-50 text-center">Report Post</h1>
+
+            <form onsubmit="return UpdateFailReason({{post.id}});" id="formUpdate">
+
+                <div class="form-group disabled">
+                    <label for="author_name">Author name</label>
+                    <input type="text" readonly class="form-control" id="author_name" value="{{post.author_name}}">
+                </div>
+
+                <div class="form-group disabled">
+                    <label for="title">Titlle</label>
+                    <input type="text" readonly class="form-control" id="title" value="{{post.title}}">
+                </div>
+                <div class="form-group">
+                    <label for="content">
+                        <h4>Fail reason</h4>
+                    </label>
+                    <textarea rows="100" type="text" class="form-control" name="fail_reason" id="fail_reason"
+                        placeholder="Main content"></textarea></div>
+                <script>
+                    CKEDITOR.replace('fail_reason');
+                    CKEDITOR.config.height = 460;
+                </script>
+                <button type="submit" class="btn btn-success form-control">Submit</button>
+
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+    function UpdateFailReason(id) {
+        var frm = {};
+        var data = CKEDITOR.instances.fail_reason.getData();
+        frm['fail_reason'] = data;
+        console.log(data);
+        $.ajax({
+            url: '../../editor/refuse-post/' + id,
+            method: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(frm),
+            complete: () => console.log('completed submit'),
+            success: (rs => {
+                console.log('update fail reason success');
+                window.location.replace('/editor/');
+
+            }),
+            error: (error => {
+                console.log('update fail reason fail');
+
+                window.location.replace('/editor/');
+            })
+
+        });
+        return false;
+    }
+</script>

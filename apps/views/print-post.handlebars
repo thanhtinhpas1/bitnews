@@ -1,0 +1,21 @@
+<img src="{{post.avatar}}" alt="" style="height: 400px">
+
+<div class="post-meta mt-10">
+	<a class="post-category cat-1" href="/archieve-post/{{post.catID}}">{{post.catName}}</a>
+</div>
+
+<h3 class="mt-30"><b>{{post.title}}</b></h3>
+<ul class="list-li-mr-20 mtb-15">
+	<li>by <a href="#"><b>{{post.userName}} &nbsp;</b></a>{{moment post.post_date format="YYYY/MM/DD h:mm:s"}}</li>
+	<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{post.views}}</li>
+	<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{amountOfCom}}</li>
+</ul>
+
+<b>{{post.summary_content}}</b style="">
+
+<p class="mtb-15" style="line-height: 30px">{{{post.content}}}</p>
+
+<div class="quote-primary mtb-20">
+	<img src="{{post.thumb_img}}" alt="">
+</div><!-- quote-primary -->
+

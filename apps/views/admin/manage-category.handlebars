@@ -1,0 +1,177 @@
+</script>
+<main class="main-content bgc-grey-100">
+  <div id="mainContent">
+    <div class="container-fluid">
+      <h1 class="text-center table-header">Manage Category</h1>
+
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Catgory table</h6>
+          <button type="button" class="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal"
+            data-whatever="@mdo"><i class="fas fa-plus-circle mr-1" style="color:#ffffff;"></i>Add category</button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="/admin/manage-category/add" method="POST">
+                    <label for="recipient-name" class="col-form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="recipient-name" required>
+                    <label for="message-text" class="col-form-label">Parent category</label>
+                    <select id="selectParentCategory" name="parent_id" id="message-text" class="form-control mb-4"
+                      required>
+                      <option value="">None</option>
+                    </select>
+                    <div class="modal-footer mt-2">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-success">Create category</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modalEditCategory" tabindex="-1" role="dialog" aria-labelledby="modalEditCategory"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="formEditCategory" method="POST">
+                    <label for="recipient-name" class="col-form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="editName" value="{{name}}" required>
+                    <label for="message-text" class="col-form-label">Parent category</label>
+                    <select name="parent_id" id="selectParentIdForEdit" class="form-control mb-4" required>
+                      <option value="">None</option>
+                    </select>
+                    <div class="modal-footer mt-2">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-success">Save category</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Created at</th>
+                  <th>Updated at</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th width="10%">ID</th>
+                  <th width="20%">Name</th>
+                  <th width="30%">Created at</th>
+                  <th width="30%">Updated at</th>
+                  <th width="10%">Edit</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {{#each categories}}
+                <tr>
+                  <td>{{id}}</td>
+                  <td>{{name}}</td>
+                  <td>{{moment created_at format="YYYY/MM/DD h:mm:s"}}</td>
+                  <td>{{moment updated_at format="YYYY/MM/DD h:mm:s"}}</td>
+                  <td class="text-center">
+                    <button onclick="loadEdit({{id}})" data-toggle="modal" data-target="#modalEditCategory"
+                      type="button" class="btn btn-cat-control" id="btnCatEdit">
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button onclick="functionConfirm({{id}})" type="button" class="btn btn-cat-control"
+                      id="btnCatRemove">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script type="text/javascript">
+  function functionConfirm(id) {
+    if (confirm("Are you sure delete?")) {
+      window.location.replace("/admin/manage-category/delete?id=" + id);
+      return true;
+    }
+
+    return false;
+  }
+
+  $.ajax({
+    url: '/admin/manage-category/add',
+    type: 'GET',
+    success: (response) => {
+      for (var i = 0; i < response.length; i++) {
+        $('#selectParentCategory').append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+      }
+    },
+    error: (error) => {
+      console.log(error);
+    }
+  });
+
+  function loadSelectForEdit(data) {
+    console.log(data);
+    $.ajax({
+      url: '/admin/manage-category/add',
+      type: 'GET',
+      success: (response) => {
+          console.log(response);
+        var category = response.filter(item => item.id == data.parent_id);
+        if (category.length > 0) {
+          console.log(category);
+          if(category[0].id != data.id )$('#selectParentIdForEdit').append("<option value='" + category[0].id + "' selected>" + category[0].name + "</option>");
+        }
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].id != data.id) $('#selectParentIdForEdit').append("<option value='" + response[i].id + "'>" + response[i].name + "</option>");
+        }
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
+  }
+
+  function loadEdit(id) {
+    $.ajax({
+      url: '/admin/manage-category/edit/' + id,
+      type: 'GET',
+      success: function (response) {
+        $('#editName').val(response.name);
+        loadSelectForEdit(response);
+        $('#formEditCategory').attr('action', '/admin/manage-category/edit/' + id);
+      },
+      error: function (error) {
+        console.log(error);
+      }
+    });
+  }
+</script>

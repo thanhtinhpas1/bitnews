@@ -1,0 +1,153 @@
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+	integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+<section class="ptb-0">
+	<div class="container">
+		<a class="mt-30" href="index.html"><i class="mr-5 ion-ios-home"></i>Home<i
+				class="mlr-10 ion-chevron-right"></i></a>
+		<a class="color-ash mt-10" id="page-url" href="#">Bài viết</a>
+		{{#if isPremium}}
+		<a class="premium-tag ml-2" href="#" id="premium">Premium</a>
+		{{/if}}
+	</div><!-- container -->
+	<div class="mb-30 brdr-ash-1 opacty-5"></div>
+</section>
+<img src="{{post.avatar}}" alt="" style="height: 400px">
+
+<div class="post-meta mt-10">
+	<a class="post-category cat-1" href="/archieve-post/{{post.catID}}">{{post.catName}}</a>
+</div>
+
+<h3 class="mt-30"><b>{{post.title}}</b></h3>
+<ul class="list-li-mr-20 mtb-15">
+	<li>by <a href="#"><b>{{post.userName}} &nbsp;</b></a>{{moment post.post_date format="YYYY/MM/DD h:mm:s"}}</li>
+	<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{post.views}}</li>
+	<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{amountOfCom}}</li>
+</ul>
+
+<b>{{post.summary_content}}</b style="">
+
+<p class="mtb-15" style="line-height: 30px">{{{post.content}}}</p>
+
+<div class="quote-primary mtb-20">
+	<img src="{{post.thumb_img}}" alt="">
+</div><!-- quote-primary -->
+
+
+
+<div class="float-left-right text-center mt-40 mt-sm-20">
+
+	<ul
+		class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
+		{{#if isPremium}}
+		<li class="download"><a onclick="DownloadPost({{post.id}})">Tải xuống<i
+					class="fas fa-file-download ml-2"></i></a></li>
+		{{/if}}
+		{{#each this.lstPostTag}}
+		<li><a href="#">{{tag_name}}</a></li>
+		{{/each}}
+
+	</ul>
+	<ul class="mb-30 list-a-bg-grey list-a-hw-radial-35 list-a-hvr-primary list-li-ml-5">
+
+		<li class="mr-10 ml-0">Chia sẻ</li>
+		<li><a href="#"><i class="ion-social-facebook"></i></a></li>
+		<li><a href="#"><i class="ion-social-twitter"></i></a></li>
+		<li><a href="#"><i class="ion-social-google"></i></a></li>
+		<li><a href="#"><i class="ion-social-instagram"></i></a></li>
+	</ul>
+
+
+</div><!-- floa"t-left-right -->
+
+
+<div class="brdr-ash-1 opacty-5"></div>
+
+<h4 class="p-title mt-20"><b>Có {{amountOfCom}} bình luận</b></h4>
+
+{{#each lstCom }}
+<div class="sided-70 mb-40">
+	<div class="s-left rounded">
+		<img src="/imgs/avatar.png" alt="">
+	</div><!-- s-left -->
+
+	<div class="s-right ml-100 ml-xs-85">
+		<h5><b>{{name}}</b> <span class="font-8 color-ash">{{moment created_at format="YYYY/MM/DD h:mm:s" }}</span></h5>
+		<p class="mtb-15">{{content}}</p>
+		<a class="btn-brdr-grey btn-b-sm plr-15 mr-10 mt-5" href="#"><b>LIKE</b></a>
+		<a class="btn-brdr-grey btn-b-sm plr-15 mt-5" href="#"><b>REPLY</b></a>
+	</div><!-- s-right -->
+</div><!-- sided-70 -->
+
+{{!-- <div class="sided-70 ml-100 ml-xs-20 mb-40">
+	<div class="s-left rounded">
+		<img src="{{avatar}}" alt="">
+	</div><!-- s-left -->
+	<div class="s-right ml-100 ml-xs-85">
+		<h5><b>{{name}}</b> <span
+				class="font-8 color-ash">{{moment created_at format="YYYY/MM/DD h:mm:s" }}</span></h5>
+		<p class="mtb-10">{{content}}</p>
+		<a class="btn-brdr-grey btn-b-sm plr-15 mr-10 mt-5" href="#"><b>LIKE</b></a>
+		<a class="btn-brdr-grey btn-b-sm plr-15 mt-5" href="#"><b>REPLY</b></a>
+	</div><!-- s-right -->
+</div><!-- sided-70 --> --}}
+{{/each}}
+
+
+<h4 class="p-title mt-20"><b>ĐỂ LẠI BÌNH LUẬN</b></h4>
+
+<form action="/single-post/{{post.id}}/new-comment" method="POST"
+	class="form-block form-plr-15 form-h-45 form-mb-20 form-brdr-lite-white mb-md-50">
+	<input name="name" type="text" placeholder="Tên của bạn*:">
+	{{!-- <input type="text" placeholder="Email của bạn*:"> --}}
+	{{!-- <input type="text" placeholder="Số điện thoại của bạn*:"> --}}
+	<textarea name="content" class="ptb-10" placeholder="Bình luận của bạn"></textarea>
+	<button class="btn-fill-primary plr-30" rows="4" cols="50" type="submit"><b>BÌNH LUẬN</b></button>
+</form>
+
+
+<h4 class="p-title mt-50"><b>Có thể bạn sẽ thích</b></h4>
+<div class="row">
+	{{#each this.favNew}}
+	<div class="col-sm-6">
+		<img src="{{thumb_img}}" style="height: 250px" alt="">
+		<h4 class="pt-20"><a href="#"><b>{{title}}</b></a></h4>
+		<div class="post-meta">
+			<a class="post-category cat-1" href="/archieve-post/{{id}}">{{catName}}</a>
+		</div>
+		<ul class="list-li-mr-20 pt-10 mb-30">
+			<li class="color-lite-black">by <a href="#" class="color-black"><b>{{userName}}</b></a>
+				{{moment post_date format="YYYY/MM/DD h:mm:s"}}</li>
+			<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{views}}</li>
+			<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{comments}}</li>
+		</ul>
+	</div><!-- col-sm-6 -->
+	{{/each}}
+
+</div><!-- row -->
+
+<script>
+	function DownloadPost(idPost) {
+		$.ajax({
+			url: '/single-post/' + idPost + '/download',
+			method: 'GET',
+			complete: () => console.log('Complete send request download'),
+			xhrFields: {
+				responseType: 'blob'
+			},
+			success: function (response, status, xhr) {
+				var fileName = xhr.getResponseHeader('Content-Disposition').split("=")[1];
+				fileName = fileName.slice(1, fileName.length - 1);
+				console.log(fileName);
+				var a = document.createElement('a');
+				var url = window.URL.createObjectURL(response);
+				a.href = url;
+				a.download = fileName;
+				a.click();
+				window.URL.revokeObjectURL(url);
+			},
+			error: err => {
+				console.log('Request download failed');
+			}
+		});
+	}
+</script>

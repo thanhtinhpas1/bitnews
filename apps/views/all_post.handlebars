@@ -1,0 +1,41 @@
+<h4 class="p-title"><b>All post</b></h4>
+
+<div class="row">
+	{{#each posts}}
+		<div class="col-sm-4 h-100">
+			<img src="{{avatar}}" style="height: auto" alt="">
+			<h4 class="all-posts pt-20"><a href="/single-post/{{id}}"><b>{{title}}</b></a></h4>
+			<div class="post-meta">
+				<a class="post-category cat-2" href="/archieve-post/{{category_id}}">{{category_name}}</a>
+			</div>
+			<ul class="list-li-mr-20 pt-10 mb-30">
+				<li class="color-lite-black">by <a href="#" class="color-black"><b>{{userName}}</b></a>
+					{{moment post_date format="YYYY/MM/DD h:mm:s"}}</li>
+				<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{views}}</li>
+				<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>47</li>
+			</ul>
+		</div><!-- col-sm-6 -->
+	{{/each}}
+	
+</div><!-- row -->
+<div class="pagination">
+	<nav aria-label="pageination">
+  <ul class="pagination">
+    <li class="page-item {{#if previous}} disabled {{/if}}">
+      <a class="page-link" href="?page={{pagePrevious}}" tabindex="-1">Previous</a>
+    </li>
+		{{#each pagination}}
+				{{#if active}}
+				<li class="page-item active">
+					<a class="page-link" href="javascript:;" >{{value}}<span class="sr-only">(current)</span></a>
+				</li>
+			  {{else}} <li class="page-item {{#if active}} active {{/if}} "><a class="page-link" href="?page={{value}}">{{value}}</a></li> 
+				{{/if}} 
+		{{/each}}
+
+    <li class="page-item {{#if next}} disabled {{/if}}" >
+      <a class="page-link" href="?page={{pageNext}}" tabindex="-1">Next</a>
+    </li>
+  </ul>
+</nav>
+</div>

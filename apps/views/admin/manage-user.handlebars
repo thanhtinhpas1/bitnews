@@ -1,0 +1,215 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<main class="main-content  bgc-grey-100">
+  <div id="mainContent">
+    <div class="container-fluid">
+      <h1 class="table-header text-center">Manage User</h1>
+
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">User table</h6>
+          <a href="manage-user/add">
+            <button type="button" class="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal"
+              data-whatever="@mdo"><i class="fas fa-plus-circle mr-1" style="color:#ffffff;"></i>Add user</button>
+          </a>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Change category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form onsubmit="return false;" method="POST">
+                    <label for="message-text" class="col-form-label">Category</label>
+                    <select id="category_id" name="category_id" id="message-text" class="form-control mb-4" required>
+                      <option value="">None</option>
+                      {{#each categories}}
+                      <option {{#if active}} selected {{/if}} value="{{id}}">{{name}}</option>
+                      {{/each}}
+                    </select>
+                    <div class="modal-footer mt-2">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button onclick="ChangeCategory()" class="btn btn-success">Save</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="plusMoreDay" tabindex="-1" role="dialog" aria-labelledby="modalEditCategory"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit expiration date</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form onsubmit="return false;" method="POST">
+                    <label for="recipient-name" class="col-form-label">Expiry date</label>
+                    <input type="text" name="expiry_date" class="form-control" id="expiry_date" required>
+                    <script>
+                      $(function () {
+                        $("#expiry_date").datepicker();
+                      });
+                    </script>
+                    <div class="modal-footer mt-2">
+                      <button onclick="ChangeUserId(-1)" type="button" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                      <button onclick="RenewExpirationDay()" class="btn btn-success">Save change</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="5%">ID</th>
+                  <th width="10%">Username</th>
+                  <th width="20%">Email</th>
+                  <th width="20%">Category</th>
+                  <th width="20%">Expiry date</th>
+                  <th width="10%">Type account</th>
+                  <th width="15%">Edit</th> 
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th width="5%">ID</th>
+                  <th width="10%">Username</th>
+                  <th width="20%">Email</th>
+                  <th width="20%">Category</th>
+                  <th width="20%">Expiry date</th>
+                  <th width="10%">Type account</th>
+                  <th width="15%">Edit</th> 
+                </tr>
+              </tfoot>
+              <tbody>
+                {{#each users}}
+                <tr>
+                  <td width="5%">{{id}}</td>
+                  <td width="10%">{{username}}</td>
+                  <td width="20%">{{email}}</td>
+                  <td width="15%">
+                    {{#if category_name}}
+                    <span id="category_name" class="label label-primary">{{category_name}}</span>
+                    <div class="btn-group" style="float: right;">
+                      <button onclick="ChangeUserId({{id}})" data-toggle="modal" data-target="#exampleModal"
+                        class="btn btn-secondary btn-sm" type="button" aria-expanded="false">
+                        Change
+                      </button>
+                    </div>
+                    {{/if}}
+
+                  </td>
+                  <td width="15%">
+                    {{#if expiry_date}}
+                    <span id="category_name" class="label label-success">
+                      {{moment expiry_date format="YYYY/MM/DD"}}</span>
+                    <div class="btn-group" style="float: right;">
+                      <button onclick="ChangeUserId({{id}})" data-toggle="modal" data-target="#plusMoreDay"
+                        class="btn btn-secondary btn-sm" type="button" aria-expanded="false">
+                        Change
+                      </button>
+                    </div>
+                    {{/if}}
+                  </td>
+                  <td width="10%">{{role_name}}</td>
+                  <td width="15%" class="text-center">
+                    <a href="manage-user/edit/{{id}}">
+                      <button type="button" class="btn btn-cat-control" id="btnCatEdit">
+                        <i class="fas fa-pen"></i>
+                      </button>
+                    </a>
+                    <button onclick="functionConfirm({{id}})" type="button" class="btn btn-cat-control"
+                      id="btnCatRemove">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script type="text/javascript">
+  var user_id = -1;
+
+  function ChangeUserId(id) {
+    user_id = id;
+  }
+
+  function functionConfirm(id) {
+    if (confirm("Are you sure delete?")) {
+      window.location.replace("/admin/manage-user/delete?id=" + id);
+      return true;
+    }
+
+    return false;
+  }
+
+  function RenewExpirationDay() {
+    var expiry_date = $('#expiry_date').val();;
+    if (expiry_date != null && user_id > 0) {
+      console.log(expiry_date);
+      console.log(user_id);
+      var data = {};
+      data['expiry_date'] = expiry_date;
+      var URL = 'manage-user/' + user_id + '/change-expiration';
+      $.ajax({
+        url: URL,
+        method: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        complete: () => console.log('Completed send change expiration'),
+        success: (values) => {
+          window.location.replace("/admin/manage-user");
+        },
+        error: (error) => {
+          console.log(error);
+          window.location.replace("/admin/manage-user");
+
+        }
+      });
+    }
+  }
+
+  function ChangeCategory() {
+    var category_id = $('#category_id').val();
+    if (category_id > 0 && user_id > 0) {
+      $.ajax({
+        method: 'POST',
+        url: 'manage-user/' + user_id + '/change-category?category_id=' + category_id,
+        complete: () => console.log('Completed send change category'),
+        success: (values) => {
+          window.location.replace("/admin/manage-user");
+        },
+        error: (error) => {
+          console.log(error);
+          window.location.replace("/admin/manage-user");
+
+        }
+      });
+    }
+  }
+</script>

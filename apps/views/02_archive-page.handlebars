@@ -1,0 +1,48 @@
+<h4 class="p-title"><b>{{category.name}}</b></h4>
+
+<div class="row">
+	{{#each posts}}
+	<div class="col-sm-3">
+		<img src="{{avatar}}" style="height: auto" alt="">
+		<h4 class="pt-20"><a href="/single-post/{{id}}"><b>{{title}}</b></a></h4>
+		<div class="post-meta">
+			<a class="post-category cat-1" href="/archieve-post/{{catID}}">{{catName}}</a>
+		</div>
+		<ul class="list-li-mr-20 pt-10 mb-30">
+			<li class="color-lite-black">by <a href="#" class="color-black"><b>{{userName}}</b></a>
+				{{moment post_date format="YYYY/MM/DD h:mm:s"}}</li>
+			<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{views}}</li>
+			<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>47</li>
+		</ul>
+		{{#if isActive}}
+		<div
+			class="abs-br product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center justify-content-center mr-1">
+			<span>premium</span>
+		</div>
+		{{/if}}
+	</div><!-- col-sm-6 -->
+	{{/each}}
+
+</div><!-- row -->
+<div class="pagination">
+	<nav aria-label="pageination">
+		<ul class="pagination">
+			<li class="page-item {{#if pagination.previous}} disabled {{/if}}">
+				<a class="page-link" href="/archieve-post/{{category.id}}?page={{previous}}" tabindex="-1">Previous</a>
+			</li>
+			{{#each pagination}}
+			<li class="page-item {{#if active}} active {{/if}} "><a class="page-link"
+					href="/archieve-post/{{category.id}}?page={{page}}">{{page}}</a></li>
+			{{/each}}
+			{{!-- <li class="page-item"><a class="page-link" href="/posts?{{previous}}">{{previous}}</a></li>
+    <li class="page-item active">
+      <a class="page-link" href="#" >{{page}}<span class="sr-only">(current)</span></a>
+			    <li class="page-item"><a class="page-link" href="/archieve-post/{{category.id}}?page={{next}}">{{next}}</a></li>
+    </li> --}}
+
+			<li class="page-item {{#if pagination.next}} disabled {{/if}}">
+				<a class="page-link" href="/archieve-post/{{category.id}}?page={{next}}" tabindex="-1">Next</a>
+			</li>
+		</ul>
+	</nav>
+</div>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Trang nâng cấp tài khoản</title>
+    <!--Made with love by Mutiullah Samim -->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!--Custom styles-->
+    <link rel="stylesheet" type="text/css" href="/css/login.style.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<script type="text/javascript">
+    $(function () {
+        $('#birthday').datetimepicker({
+            format: 'd/m/Y',
+            timepicker: false,
+            mask: true,
+        });
+
+        $('#frmRegister').validate({
+            rules: {
+                card: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            messages: {
+                card: {
+                    required: 'Phone card is required.',
+                    minlength: 'Phone card must have at least 13 characters.'
+                },
+            },
+            errorElement: 'small',
+            errorClass: 'help-block text-danger',
+            highlight: function (e) {
+                $(e).removeClass('is-valid').addClass('is-invalid');
+            },
+            unhighlight: function (e) {
+                $(e).removeClass('is-invalid').addClass('is-valid');
+            }
+        });
+    })
+</script>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Nâng cấp tài khoản</h3>
+                </div>
+                <div class="card-body">
+                    <form method="POST" id="frmExtension" action="extend" novalidate>
+                        <div class="form-group">
+                            <input id="card" name="card" type="text" class="form-control"
+                                placeholder="Nhập card điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Nâng cấp" class="btn float-right login_btn">
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
+
+</body>
+
+</html>

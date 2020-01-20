@@ -1,0 +1,510 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+	<title>Newsbit</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+
+	<!-- Font -->
+	<link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded:400,600,700" rel="stylesheet">
+
+	<!-- Stylesheets -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+	<link href="fonts/ionicons.css" rel="stylesheet">
+
+	<link href="/css/styles.css" rel="stylesheet">
+
+	<link href="/css/main_styles.css" rel="stylesheet">
+
+
+	<link rel="icon" href="imgs/favicon.ico">
+
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/popper.min.js"></script>
+
+	<!-- awesome fonts -->
+</head>
+
+<body>
+	<!-- Preloader -->
+	<a href="#top" id="topBtn">
+		<i class="fas fa-arrow-circle-up"></i>
+	</a>
+	<div class="preloader d-flex align-items-center justify-content-center">
+		<div class="lds-ellipsis">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<header>
+
+		<!-- ##### Header Area Start ##### -->
+		<header class="header-area">
+			<!-- Top Header Area -->
+			<div class="top-header-area">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-12 col-md-6">
+							<!-- Breaking News Widget -->
+							<div class="breaking-news-area d-flex align-items-center">
+								<div class="news-title">
+									<p>Tin nóng:</p>
+								</div>
+								<div id="breakingNewsTicker" class="ticker">
+									<ul>
+										{{#each lcTopHot}}
+										<li><a href="/single-post/{{id}}">{{title}}</a></li>
+										{{/each}}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-12 col-md-6">
+							<div class="top-meta-data d-flex align-items-center justify-content-end">
+								<!-- Top Social Info -->
+								<div class="top-social-info">
+									<a href="#"><i class="ion ion-social-facebook"></i></a>
+									<a href="#"><i class="ion ion-social-instagram"></i></a>
+									<a href="#"><i class="ion ion-social-twitter"></i></a>
+								</div>
+								<!-- Top Search Area -->
+								<div class="top-search-area">
+									<form action="/search" method="POST">
+										<input type="search" name="search" id="topSearch" placeholder="Search..."
+											required>
+										<button type="submit" class="btn"><i class="fas fa-search"></i></button>
+									</form>
+								</div>
+								<form style="display: none;" id="frmLogOut" action="/log-out" method="POST"></form>
+								<!-- Login -->
+								<nav style="margin: 0 !important; padding: 0px !important;"
+									class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow">
+									<div class="collapse navbar-collapse" <ul class="navbar-nav">
+										<ul class="navbar-nav mr-auto"></ul>
+										{{#if isAuthenticated}}
+										<li id="drop-user" class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+												role="button" data-toggle="dropdown" aria-haspopup="true"
+												aria-expanded="false">
+												<i class="fa fa-user mr-1"></i>{{authUser.name}}
+											</a>
+											<div class="dropdown-menu dropdown-menu-right"
+												aria-labelledby="navbarDropdown">
+												<a class="dropdown-item" href="/edit-profile/{{authUser.id}}">
+													<i class="fa fa-user" aria-hidden="true"></i>
+													Cập nhật thông tin
+												</a>
+												<div class="dropdown-divider"></div>
+												<a class="dropdown-item" href="javascript: $('#frmLogOut').submit();">
+													<i class="fas fa-sign-out-alt" aria-hidden="true"></i>
+													Đăng xuất
+												</a>
+											</div>
+										</li>
+										{{else}}
+										<li class="nav-item">
+
+											<a href="/login" class="login-btn color-white" id="header-login"><i
+													class="fas fa-user" aria-hidden="true"></i><span class="ml-1">Đăng
+													nhập</span></a>
+
+										</li>
+										{{/if}}
+									</div>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+		</header>
+
+		<div class="header">
+			<div class="container">
+				<a class="logo" href="/"><img src="imgs/logo-black.png" alt="Logo"></a>
+				<a class="menu-nav-icon" data-menu="#main-menu" href="#"><i class="ion-navicon"></i></a>
+				<ul class="main-menu menu" id="main-menu">
+					{{#each parentMenu}}
+					<li id="menu_world" class="drop-down"><a href="/archieve-post/{{id}}">{{name}}<i
+								class="ion-arrow-down-b"></i></a>
+						<ul class="drop-down-menu drop-down-inner">
+							{{#each childs}}
+							<li><a href="/archieve-post/{{id}}">{{name}}</a></li>
+							{{/each}}
+						</ul>
+					</li>
+					{{/each}}
+				</ul>
+				<div class="clearfix"></div>
+			</div><!-- container -->
+		</div>
+	</header>
+
+	<!-- body content -->
+	<div class="container mt-40">
+		<div class="h-600x h-sm-auto">
+			<div class="h-2-3 h-sm-auto oflow-hidden">
+
+				<div class="pb-5 pr-5 pr-sm-0 float-left float-sm-none w-2-3 w-sm-100 h-100 h-sm-300x">
+
+					<a class="pos-relative h-100 dplay-block" href="/single-post/{{firstPostOfWeek.id}}">
+
+						<div class="img-bg bg-grad-layer-6"
+							style="background: url({{firstPostOfWeek.thumb_img}}) no-repeat center; background-size: cover;">
+						</div>
+
+						<div class="abs-blr color-white p-20 bg-sm-color-7">
+							<h3 class="mb-15 mb-sm-5 font-sm-13" style="font-size: 23px;">
+								<b>{{firstPostOfWeek.title}}</b></h3>
+							<span class="mr-40">{{firstPostOfWeek.summary_content}}</span>
+							<ul class="list-li-mr-20">
+								{{!-- https://news.zing.vn/facebook-chi-thue-11-nguoi-chan-tin-gia-o-bau-cu-lon-nhat-tg-post938752.html --}}
+								<li>by <span class="color-primary"><b>{{firstPostOfWeek.userName}}</b></span>
+									{{moment firstPostOfWeek.post_date format="YYYY/MM/DD h:mm:s"}}</li>
+								<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{firstPostOfWeek.views}}
+								</li>
+								<li><i
+										class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{firstPostOfWeek.comments}}
+								</li>
+							</ul>
+						</div>
+				
+
+						<!--abs-blr -->
+					</a><!-- pos-relative -->
+				</div><!-- w-1-3 -->
+
+				<div class="float-left float-sm-none w-1-3 w-sm-100 h-100 h-sm-600x">
+					{{#each this.lstPostOfWeek_1}}
+					<div class="pl-5 pb-5 pl-sm-0 ptb-sm-5 pos-relative h-50">
+						<a class="pos-relative h-100 dplay-block" href="/single-post/{{id}}">
+
+							<div class="img-bg bg-grad-layer-6"
+								style="background: url({{thumb_img}}) no-repeat center; background-size: cover;"></div>
+
+							<div class="abs-blr color-white p-20 bg-sm-color-7">
+								<h4 class="mb-10 mb-sm-5"><b>{{title}}</b></h4>
+								{{!-- https://news.zing.vn/lo-video-bill-gates-len-noc-nha-trong-hop-dem-voi-dieu-nhay-con-ga-post938904.html --}}
+								<ul class="list-li-mr-20">
+									<li> {{moment post_date format="YYYY/MM/DD h:mm:s"}}</li>
+									<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{views}}</li>
+									<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{comments}}</li>
+								</ul>
+							</div>
+					
+							<!--abs-blr -->
+						</a><!-- pos-relative -->
+					</div><!-- w-1-3 -->
+					{{/each}}
+				</div><!-- float-left -->
+
+			</div><!-- h-2-3 -->
+
+			<div class="h-1-3 oflow-hidden">
+				{{#each this.lstPostOfWeeK_2}}
+				<div class="pr-5 pr-sm-0 pt-5 float-left float-sm-none pos-relative w-1-3 w-sm-100 h-100 h-sm-300x">
+					<a class="pos-relative h-100 dplay-block" href="/single-post/{{id}}">
+
+						<div class="img-bg bg-4 bg-grad-layer-6"
+							style="background: url({{thumb_img}}) no-repeat center; background-size: cover;"></div>
+
+						<div class="abs-blr color-white p-20 bg-sm-color-7">
+							<h4 class="mb-10 mb-sm-5"><b>{{title}}</b></h4>
+							{{!-- https://news.zing.vn/tu-vu-qualcomm-apple-lo-ro-su-thu-doan-va-yeu-duoi-post938090.html --}}
+							<ul class="list-li-mr-20">
+								<li>{{moment post_date format="YYYY/MM/DD h:mm:s"}}</li>
+								<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{views}}</li>
+								<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{comments}}</li>
+							</ul>
+						</div>
+						<!--abs-blr -->
+				
+					</a><!-- pos-relative -->
+				</div><!-- w-1-3 -->
+				{{/each}}
+			</div><!-- h-2-3 -->
+		</div><!-- h-100vh -->
+	</div><!-- container -->
+
+
+	<section>
+		<div class="container">
+			<div class="row">
+				<div class="row col-12">
+					<div class="hot-news col-12 col-md-6 col-lg-8">
+						<div class="section-title">
+							<h4 class="p-title"><b>Top chuyên mục</b></h4>
+						</div>
+						<!-- post -->
+						{{#each topPostOfCat}}
+						<div class="col-sm-4">
+							<div class="post">
+								<a class="post-img" href="/single-post/{{id}}"><img src="{{thumb_img}}" alt=""></a>
+								<div class="post-body">
+									<div class="post-meta">
+										<a class="post-category" href="/archieve-post/{{category_id}}"
+											style="font-size: 90%;">{{category_name}}</a>
+										<span class="post-date"
+											style="font-size: 0.8rem;">{{moment post_date format="YYYY/MM/DD h:mm:s"}}</span>
+									</div>
+									<h6 class="post-title" style="font-size: 100%"><a
+											href="/single-post/{{id}}"><b>{{title}}</b></a></h6>
+								</div>
+
+							</div>
+						</div>
+						{{/each}}
+					</div>
+
+					<div class=" col-12 col-md-6 col-lg-4">
+						<h4 class="p-title"><b>Tin trong ngày</b></h4>
+
+						{{#each lcTopHot}}
+						<a class="oflow-hidden pos-relative dplay-block" href="/single-post/{{id}}">
+
+							<div class="wh-100x abs-tlr">
+								<img src="{{thumb_img}}" alt="">
+						
+
+							</div>
+
+							<div class="ml-120 min-h-100x">
+								<h5 style="font-size: 0.9rem;"><b>{{title}}&nbsp;</b></h5>
+								<h6 style="font-size: 0.7rem;" class="color-lite-black pt-10">by <span
+										class="color-black"><b>{{userName}}</b></span>
+									{{moment post_date format="YYYY/MM/DD h:mm:s"}} &nbsp; <b>{{catName}}</b></h6>
+							</div>
+
+						</a><!-- oflow-hidden -->
+						{{/each}}
+
+					</div><!-- mtb-50 -->
+				</div>
+
+				<div class="col-md-12 col-lg-8">
+					<h4 class="p-title"><b>Tin mới nhất</b></h4>
+					<div class="row">
+						<div class="col-sm-6">
+							<img src="{{hottest.thumb_img}}" alt="">
+							<h4 class="all-title pt-20"><a
+									href="/single-post/{{hottest.id}}"><b>{{hottest.title}}</b></a></h4>
+							<div class="post-meta">
+								<a class="post-category cat-1"
+									href="/archieve-post/{{hottest.catID}}">{{hottest.catName}}</a>
+							</div>
+							<ul class="list-li-mr-20 pt-10 pb-20">
+								<li class="color-lite-black">by <a href="/single-post/{{hottest.id}}"
+										class="color-black"><b> &nbsp;{{hottest.userName}} &nbsp;</b></a>
+									{{moment hottest.post_date format="YYYY/MM/DD h:mm:s" }}</li>
+								<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i><b>{{hottest.views}}</b></li>
+								<li><i
+										class="color-primary mr-5 font-12 ion-chatbubbles"></i><b>{{hottest.comments}}</b>
+								</li>
+							</ul>
+							<p>{{hottest.summary_content}}</p>
+					
+
+						</div><!-- col-sm-6 -->
+
+						<div class="all-news-content col-sm-6">
+							{{#each this.lstHottest}}
+							<a class="oflow-hidden pos-relative mb-20 dplay-block" href="/single-post/{{id}}">
+
+								<div class="wh-100x abs-tlr"><img src="{{thumb_img}}" alt="">
+								</div>
+
+								<div class="ml-120 min-h-100x">
+									<h5 class="all-title"><b>{{title}}</b></h5>
+									<h6 class="color-lite-black pt-10">by <span
+											class="color-black"><b>&nbsp;{{userName}}&nbsp;</b></span>{{moment post_date format="YYYY/MM/DD h:mm:s"}}&nbsp;
+										<b>{{catName}}</b></h6>
+								</div>
+
+							</a><!-- oflow-hidden -->
+							{{/each}}
+						</div>
+					</div><!-- row -->
+
+					<h4 class="p-title mt-30"><b>Tất cả</b></h4>
+					<div class="row" id="allPost">
+						{{#each this.post as |post|}}
+						<div class="col-sm-6">
+							<img src="{{thumb_img}}" alt="">
+							<h4 class="all-title pt-20"><a href="/single-post/{{id}}"><b>{{title}}</b></a></h4>
+							<div class="post-meta">
+								<a class="post-category cat-1" href="/archieve-post/{{catID}}">{{catName}}</a>
+								{{#each ../this.lstPostTag as |postTag|}}
+
+								{{/each}}
+							</div>
+							<ul class="list-li-mr-20 pt-10 mb-30">
+								<li class="color-lite-black">by <a href="/single-post/{{id}}"
+										class="color-black"><b>&nbsp;{{userName}} &nbsp;</b></a>
+									{{moment post_date format="YYYY/MM/DD h:mm:s"}}</li>
+								<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>{{views}}</li>
+								<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>{{comments}}</li>
+							</ul>
+						</div><!-- col-sm-6 -->
+						{{/each}}
+					</div><!-- row -->
+					<a href="/posts" class="dplay-block btn-brdr-primary mt-20 mb-md-50" id="pagination">Xem tất cả</a>
+				</div><!-- col-md-9 -->
+
+				<div class="d-none d-md-block d-lg-none col-md-3"></div>
+				<div class="col-md-6 col-lg-4">
+					<div class="pl-20 pl-md-0">
+						<div>
+							<h4 class="p-title"><b>Tin có nhiều lượt xem nhất</b></h4>
+
+							{{#each lcTopView}}
+							<a class="oflow-hidden pos-relative mb-20 dplay-block" href="/single-post/{{id}}">
+								<div class="wh-100x abs-tlr"><img src="{{thumb_img}}" alt="">
+								</div>
+								<div class="ml-120 min-h-100x">
+									<h5 style="font-size: 0.9rem;"><b>{{title}}</b></h5>
+									<h6 class="color-lite-black pt-10">by <span class="color-black"><b>{{userName}}
+												&nbsp;</b></span>{{moment post_date format="YYYY/MM/DD h:mm:s"}} &nbsp;
+										<b>{{catName}}</b></h6>
+								</div>
+							</a><!-- oflow-hidden -->
+							{{/each}}
+
+						</div><!-- mtb-50 -->
+						
+
+						<div class="aside-widget">
+							<div class="section-title">
+								<h2>Chuyên mục</h2>
+							</div>
+							<div class="category-widget">
+								<ul>
+									{{#each lcTopCate}}
+									<li><a href="/archieve-post/{{id}}" class="cat-1">{{name}}<span>{{SL}}</span></a>
+									</li>
+									{{/each}}
+								</ul>
+							</div>
+						</div>
+
+						<div class="aside-widget">
+							<div class="tags-widget">
+								<ul>
+									{{#each lcAllTag}}
+									<li><a href="/posts/tag/{{id}}">{{name}}</a></li>
+									{{/each}}
+								</ul>
+							</div>
+						</div>
+					</div><!--  pl-20 -->
+				</div><!-- col-md-3 -->
+			</div><!-- row -->
+		</div><!-- container -->
+	</section>
+
+
+	<footer class="bg-191 color-ccc">
+
+		<div class="container">
+			<div class="pt-50 pb-20 pos-relative">
+				<div class="abs-tblr pt-50 z--1 text-center">
+					<div class="h-80 pos-relative"><img class="opacty-1 h-100 w-auto"
+							src="https://firebasestorage.googleapis.com/v0/b/flashfood-ce894.appspot.com/o/news%2Fb1.jpg?alt=media&token=4aec670b-4b87-4092-9563-a329026a5f6c/map.png"
+							alt=""></div>
+				</div>
+				<div class="row">
+
+					<div class="col-sm-8">
+						<div class="mb-30">
+							<a href="/"><img src="/imgs/logo-white.png"></a>
+							<p class="mtb-20 color-ccc">Trang thông tin tin tức trong nước và ngoài nước, phục vụ nhu
+								cầu cập nhật cho người đọc.</p>
+							<p class="color-ash">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;
+								<script>document.write(new Date().getFullYear());</script> Cơ quan chủ quản: Công ty Cổ
+								phần Quảng cáo Trực tuyến 24H Trụ sở: Tầng 12, Tòa nhà Geleximco, 36 Hoàng Cầu, Phường Ô
+								Chợ Dừa, Quận Đống Đa, TP Hà Nội. Tel: (84-24) 73 00 24 24 hoặc (84-24) 3512 1806 - Fax:
+								(84-24) 3512 1804. Chi nhánh: Tầng 7, Tòa nhà Việt Úc, 402 Nguyễn Thị Minh Khai, Phường
+								5, Quận 3, TP. Hồ Chí Minh. Tel: (84-28) 7300 2424 / Giấy phép số 332/GP – TT ĐT ngày
+								cấp 22/01/2018 SỞ THÔNG TIN VÀ TRUYỀN THÔNG HÀ NỘI. Chịu trách nhiệm xuất bản: Phan Minh
+								Tâm. HOTLINE: 0965 08 24 24<i class="ion-heart" aria-hidden="true"></i> by <a
+									href="https://colorlib.com" target="_blank">Colorlib</a>
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</p>
+						</div><!-- mb-30 -->
+					</div><!-- col-md-4 -->
+
+					<div class="col-sm-4">
+						<div class="mb-30">
+							<h5 class="color-primary mb-20"><b>Tin phổ biến</b></h5>
+							{{#each this.popularNew}}
+							<div class="mb-20">
+								<a class="color-white" href="/single-post/{{id}}"><b>{{title}}</b></a>
+								<h6 class="mt-10">{{moment post_date format="YYYY/MM/DD h:mm:s"}}</h6>
+							</div>
+							<div class="brdr-ash-1 opacty-2 mr-30"></div>
+							{{/each}}
+
+						</div><!-- mb-30 -->
+					</div><!-- col-md-4 -->
+
+				</div><!-- row -->
+			</div><!-- ptb-50 -->
+
+			<div class="brdr-ash-1 opacty-2"></div>
+
+			<div class="oflow-hidden color-ash font-9 text-sm-center ptb-sm-5">
+
+				<ul class="float-left float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-10">
+					<li><a class="pl-0 pl-sm-10" href="/single-post">Terms & Conditions</a></li>
+					<li><a href="/single-post">Privacy policy</a></li>
+					<li><a href="/single-post">Jobs advertising</a></li>
+					<li><a href="/single-post">Contact us</a></li>
+				</ul>
+				<ul class="float-right float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-5">
+					<li><a class="pl-0 pl-sm-10" href="#"><i class="ion-social-facebook"></i></a></li>
+					<li><a href="#"><i class="ion-social-twitter"></i></a></li>
+					<li><a href="#"><i class="ion-social-google"></i></a></li>
+					<li><a href="#"><i class="ion-social-instagram"></i></a></li>
+					<li><a href="#"><i class="ion-social-bitcoin"></i></a></li>
+				</ul>
+
+			</div><!-- oflow-hidden -->
+		</div><!-- container -->
+	</footer>
+
+	<script>
+		var listCat = document.getElementsByClassName('post-category');
+		var min = 1, max = 9;
+		for (var i = 0; i < listCat.length; i++) {
+			var random = Math.floor(Math.random() + i) % max + 1;
+			console.log(random);
+			listCat[i].classList.add('cat-' + random);
+		}
+
+	</script>
+
+	<script src="js/jquery-3.4.0.min.js"></script>
+
+	<script src="js/jquery.sticky.js"></script>
+
+	<script src="js/plugins.js"></script>
+
+	<script src="js/scripts.js"></script>
+</body>
+
+</html>

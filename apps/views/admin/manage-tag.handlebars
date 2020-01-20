@@ -1,0 +1,129 @@
+<main class="main-content bgc-grey-100">
+  <div id="mainContent">
+    <div class="container-fluid">
+      <h1 class="table-header text-center">Manage Tags</h1>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Tag table</h6>
+          <button type="button" class="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModal"
+            data-whatever="@mdo"><i class="fas fa-plus-circle mr-1" style="color:#ffffff;"></i>Add Tag</button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New tag</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form action="/admin/manage-tag/add" method="POST">
+                    <label for="recipient-name" class="col-form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="recipient-name" required>
+                    <div class="modal-footer mt-2">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-success">Create tag</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="modal fade" id="modalEditTag" tabindex="-1" role="dialog" aria-labelledby="modalEditTag"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Edit tag</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="formEditTag" method="POST">
+                    <label for="recipient-name" class="col-form-label">Name</label>
+                    <input type="text" name="name" class="form-control" id="tagEditName" required>
+                    <div class="modal-footer mt-2">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-success">Save tag</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Created at</th>
+                  <th>Updated at</th>
+                  <th>Edit</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th width="10%">ID</th>
+                  <th width="20%">Name</th>
+                  <th width="30%">Created at</th>
+                  <th width="30%">Updated at</th>
+                  <th width="10%">Edit</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {{#each tags}}
+                <tr>
+                  <td>{{id}}</td>
+                  <td>{{name}}</td>
+                  <td>{{moment created_at format="YYYY/MM/DD h:mm:s"}}</td>
+                  <td>{{moment updated_at format="YYYY/MM/DD h:mm:s"}}</td>
+                  <td class="text-center">
+                    <button onclick="loadEditTag({{id}})" data-toggle="modal" data-target="#modalEditTag" type="button" class="btn btn-cat-control" id="btnCatEdit">
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button onclick="functionConfirm({{id}})" type="button" class="btn btn-cat-control"
+                      id="btnCatRemove">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script type="text/javascript">
+  function functionConfirm(id) {
+    if (confirm("Are you sure delete?")) {
+      window.location.replace("/admin/manage-tag/delete?id=" + id);
+      return true;
+    }
+    return false;
+  }
+
+  function loadEditTag(id) {
+    $('#formEditTag').attr('action', '/admin/manage-tag/edit/' + id);
+    $.ajax({
+      url: '/admin/manage-tag/edit/' + id,
+      method: 'GET',
+      success: (response) => {
+        console.log(response);
+        $('#tagEditName').val(response.name);
+      },
+      error: (error) => {
+          console.log(error);
+      }
+    });
+  }
+
+</script>

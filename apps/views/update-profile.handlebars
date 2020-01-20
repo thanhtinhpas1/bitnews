@@ -1,0 +1,51 @@
+<main class="main-content">
+    <div id="mainContent">
+        <div class="container mt-60">
+            <div class="masonry-item col-md-12">
+                <div class="card shadow mb-4">
+                    <div class="text-center card-header py-3 text-center">
+                        <h3 class="align-content-center" style="font-weight: bold; color: #029a00"><a
+                                href="/writer"></a>Update Profile
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-30">
+                            <form action="/edit-profile/{{user.id}}" id="formUpdateProfile" method="POST">
+                                <div class="form-row">
+                                    <div class="form-group col-md-8"><label for="fullname">
+                                            <h4>Name</h4>
+                                        </label>
+                                        <input type="text" class='form-control' name="name"
+                                            value="{{user.name}}" required />
+                                    </div>
+                                    {{#if isActive}}
+                                    <div class="form-group col-md-8"><label for="pseudonym">
+                                            <h4>Pseudonym</h4>
+                                        </label>
+                                        <input type="text" class='form-control' name="pseudonym"
+                                            value="{{user.pseudonym}}" required />
+                                    </div>
+                                    {{/if}}
+
+                                    <div class="form-group col-md-8"><label for="email">
+                                            <h4>Email</h4>
+                                        </label>
+                                        <input type="text" class='form-control' name="email" value="{{user.email}}"
+                                            required />
+                                    </div>
+                                    <div class="form-group col-md-8"><label for="birthday">
+                                            <h4>Birthday</h4>
+                                        </label>
+                                        <input type="date" class='form-control' name="birthday"
+                                            value="{{moment user.birthday format="YYYY-MM-DD"}}" required />
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success mr-2 ml-2 mb-3">Update Profile</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

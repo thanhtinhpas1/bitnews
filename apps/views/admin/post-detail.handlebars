@@ -1,0 +1,40 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<main>
+    <div id="mainContent container">
+        <div class="container">
+            <div class="card mb-3 shadow-sm">
+                <img id="img-avatar-detail" src="{{post.avatar}}" style="width: 60%;" class="card-img-top"
+                    alt="{{post.tile}}">
+                <div class="card-body">
+                    <h4 class="mt-30" style="color: #000; margin-top: 10px;"><b>{{post.title}}</b></h4>
+                    <h4 id="content">
+                        <b>{{post.summnary-content}}</b>
+                    </h4>
+                    <p class="card-text"><b>{{moment post.created_at format="YYYY/MM/DD h:mm:s"}}</b></p>
+                    <p class="card-text" style="color: #000;">{{{post.content}}}</p>
+                    <div>
+                        <small><b>Chuyên mục: </b></small> <a href="/admin/manage-category">{{category.name}}</a>
+                    </div>
+                    <div>
+                        <small><b>Tag: </b></small>
+                        {{#each tags}}
+                        <a href="/admin/manage-tag">{{tag_name}}</a>
+                        {{/each}}
+                    </div>
+                    <div>
+                        <small><b>Lượt xem: </b></small>
+                        <span style="color: #0f9aee;">{{post.views}}</span>
+                    </div>
+                    <div>
+                        <small><b>Trạng thái: </b></small>
+                        <span class="label {{post.label}}">{{post.statusName}}</span>
+                    </div>
+                    <p class="card-text">
+                        <h5><b>Tác giả: {{post.author_name}}</b></h5>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

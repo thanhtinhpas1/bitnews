@@ -1,0 +1,98 @@
+<main class="main-content bgc-grey-100">
+  <div id="mainContent">
+    <div class="container-fluid">
+      <h1 class="table-header text-center">Manage post</h1>
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Post table</h6>
+          <a href="/admin/manage-post/add"><button type="button" class="btn btn-success ml-2"><i
+                class="fas fa-plus-circle mr-1" style="color:#ffffff;"></i>Add Post</button></a>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th width="5%">ID</th>
+                  <th width="15%">Title</th>
+                  <th width="15%">Summary content</th>
+                  <th width="15%">Created by</th>
+                  <th width="15%">Views</th>
+                  <th width="15%">Created at</th>
+                  <th width="10%">Status</th>
+                  <th width="10%">Edit</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th width="5%">ID</th>
+                  <th width="15%">Title</th>
+                  <th width="15%">Summary content</th>
+                  <th width="10%">Created by</th>
+                  <th width="10%">Views</th>
+                  <th width="15%">Created at</th>
+                  <th width="10%">Status</th>
+                  <th width="20%">Edit</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {{#each list}}
+                <tr>
+                  <td>{{id}}</td>
+                  <td>{{title}}</td>
+                  <td>{{summary_content}}</td>
+                  <td>{{author_name}}</td>
+                  <td>{{views}}</td>
+                  <td>{{moment created_at format="YYYY/MM/DD h:mm:s"}}</td>
+                  <td>
+                      <p class="label {{label}}">{{statusName}}</p>
+                  </td>
+                  <td class="text-center">
+                    <div class="btn-group">
+                      <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Change
+                      </button>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="manage-post/{{id}}/change-status?status=1">Published</a>
+                        <a class="dropdown-item" href="manage-post/{{id}}/change-status?status=0">Draft</a>
+                      </div>
+                    </div>
+                    <button onclick="ChangeToDetail({{id}})" type="button" class="btn btn-cat-control" id="btnCatEdit">
+                      <i class="fas fa-info-circle"></i>
+                    </button>
+                    <button onclick="ChangeToEdit({{id}}) " type="button" class="btn btn-cat-control" id="btnCatEdit">
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button onclick="functionConfirm({{id}})" type="button" class="btn btn-cat-control"
+                      id="btnCatRemove">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script type="text/javascript">
+  function functionConfirm(id) {
+    if (confirm("Are you sure delete?")) {
+      window.location.replace("/admin/manage-post/delete?id=" + id);
+      return true;
+    }
+    return false;
+  }
+
+  function ChangeToEdit(id) {
+    window.location.replace("/admin/manage-post/edit/" + id);
+  }
+
+  function ChangeToDetail(id) {
+    window.location.replace("/admin/manage-post/detail/" + id);
+  }
+</script>
