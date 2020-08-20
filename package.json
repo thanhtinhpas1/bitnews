@@ -22,7 +22,7 @@
     "homepage": "https://github.com/thanhtinhpas1/PTUDW_16-2-3#readme",
     "dependencies": {
         "async": "^2.5.0",
-        "bcrypt": "^3.0.6",
+        "bcrypt": "^5.0.0",
         "body-parser": "^1.18.3",
         "config": "^3.1.0",
         "connect-flash": "^0.1.1",
